@@ -18,7 +18,7 @@ WriteMakefile1(
     VERSION_FROM        => 'lib/Xorg/XLFD.pm',
     'LICENSE'           => 'perl',
     PL_FILES            => {},
-    MIN_PERL_VERSION    => '5.10.1',
+    MIN_PERL_VERSION    => 5.10,
     PREREQ_PM => {
     },
     MAN1PODS            => {
