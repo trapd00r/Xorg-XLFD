@@ -5,15 +5,16 @@ BEGIN {
   use Exporter;
   use vars qw($VERSION @ISA @EXPORT_OK);
 
-  $VERSION = '0.015';
+  $VERSION = '0.118';
 
   @ISA = qw(Exporter);
 
-  @EXPORT_OK = qw(get_all_xfld);
+  @EXPORT_OK = qw(get_xlfd);
 
 };
 
-sub get_all_xfld {
+sub get_xlfd {
+  my $family = shift; # fixed
   my %fonts;
 
   open(my $fh, '-|', 'xlsfonts') or croak("xlsfonts: $!\n");
@@ -63,7 +64,10 @@ sub get_all_xfld {
       unless $foundary ~~ @{$fonts{family}->{$family}->{foundary}}; 
 
   }
-  return \%fonts;
+  return (exists($fonts{family}{$family}))
+    ? $fonts{family}{$family}
+    : \%fonts
+    ;
 }
 
 
@@ -81,9 +85,11 @@ Xorg::XLFD - X logical font description interface
 
 =head1 SYNOPSIS
 
-    use Xorg::XLFD qw(get_all_xfld);
+    use Xorg::XLFD qw(get_xlfd);
 
-    my $desc = get_all_xlfd();
+    my $desc = get_xlfd();         # all descriptions
+
+    my $fixed = get_xlfd('fixed'); # description for the 'fixed' font
 
 =head1 DESCRIPTION
 
@@ -96,10 +102,10 @@ None by default.
 
 =head1 FUNCTIONS
 
-=head2 get_all_xfld()
+=head2 get_xlfd()
 
-B<get_all_xfld()> takes no arguments and returns a hash reference that contains
-all available fonts on the system, grouped by family.
+B<get_xlfd()> takes one optional argument, a family name.
+If no argument is provided, all available descriptions will be returned.
 
 =head2 STRUCTURE
 
@@ -206,19 +212,19 @@ An example structure for the standard 'Fixed' font:
 
 The XLFD is made up from 12/14 font properties as visualized below.
 
--xos4-terminus-medium-r-normal--28-280-72-72-c-140-iso8859-1
-  |     |        |    |   |     |   |   |  | |  |     |__________ charset
-  |     |        |    |   |     |   |   |  | |  |________________ avg. width
-  |     |        |    |   |     |   |   |  | |___________________ spacing
-  |     |        |    |   |     |   |   |  |_____________________ vert. dpi
-  |     |        |    |   |     |   |   |________________________ horiz. dpi
-  |     |        |    |   |     |   |____________________________ 10th's of 1 pt
-  |     |        |    |   |     |________________________________ pixels
-  |     |        |    |   |______________________________________ set width
-  |     |        |    |__________________________________________ slant
-  |     |        |_______________________________________________ weight
-  |     |________________________________________________________ family
-  |______________________________________________________________ foundary
+  -xos4-terminus-medium-r-normal--28-280-72-72-c-140-iso8859-1
+   |     |        |    |   |     |   |   |  | |  |     |__________ charset
+   |     |        |    |   |     |   |   |  | |  |________________ avg. width
+   |     |        |    |   |     |   |   |  | |___________________ spacing
+   |     |        |    |   |     |   |   |  |_____________________ vert. dpi
+   |     |        |    |   |     |   |   |________________________ horiz. dpi
+   |     |        |    |   |     |   |____________________________ 10th's of 1 pt
+   |     |        |    |   |     |________________________________ pixels
+   |     |        |    |   |______________________________________ set width
+   |     |        |    |__________________________________________ slant
+   |     |        |_______________________________________________ weight
+   |     |________________________________________________________ family
+   |______________________________________________________________ foundary
 
 
 =head1 CAVEATS
@@ -226,7 +232,6 @@ The XLFD is made up from 12/14 font properties as visualized below.
 We are relying on an external application for fetching the available font
 descriptions. This is not good. We will look at the xlsfonts source code and try
 to come up with a smarter way.
-
 
 =head1 REPORTING BUGS
 
