@@ -5,7 +5,7 @@ BEGIN {
   use Exporter;
   use vars qw($VERSION @ISA @EXPORT_OK);
 
-  $VERSION = '0.120';
+  $VERSION = '0.122';
 
   @ISA = qw(Exporter);
 
@@ -14,7 +14,7 @@ BEGIN {
 };
 
 sub get_xlfd {
-  my $family = shift; # fixed
+  my $fam = shift; # fixed
   my %fonts;
 
   open(my $fh, '-|', 'xlsfonts') or croak("xlsfonts: $!\n");
@@ -65,7 +65,7 @@ sub get_xlfd {
 
   }
   return (exists($fonts{family}{$family}))
-    ? $fonts{family}{$family}
+    ? $fonts{family}{$fam}
     : \%fonts
     ;
 }
@@ -81,7 +81,7 @@ __END__
 
 =head1 NAME
 
-Xorg::XLFD - X logical font description interface
+Xorg::XLFD - X11 logical font description interface
 
 =head1 SYNOPSIS
 
@@ -93,7 +93,7 @@ Xorg::XLFD - X logical font description interface
 
 =head1 DESCRIPTION
 
-X logical fond description is a font standard used by the X Window System.
+X logical font description is a font standard used by the X Window System.
 This module provides an interface for accessing these descriptions.
 
 =head1 EXPORTS
@@ -250,7 +250,8 @@ None required yet.
 
 =head1 COPYRIGHT
 
-Copyright 2011 the Xorg::XLFD L</AUTHOR> and L</CONTRIBUTORS> as listed above.
+Copyright 2011 the B<Xorg::XLFD> L</AUTHOR> and L</CONTRIBUTORS> as listed
+above.
 
 =head1 LICENSE
 
