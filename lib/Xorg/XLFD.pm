@@ -5,7 +5,7 @@ BEGIN {
   use Exporter;
   use vars qw($VERSION @ISA @EXPORT_OK);
 
-  $VERSION = '0.122';
+  $VERSION = '0.124';
 
   @ISA = qw(Exporter);
 
@@ -64,7 +64,7 @@ sub get_xlfd {
       unless $foundary ~~ @{$fonts{family}->{$family}->{foundary}}; 
 
   }
-  return (exists($fonts{family}{$family}))
+  return (exists($fonts{family}{$fam}))
     ? $fonts{family}{$fam}
     : \%fonts
     ;
