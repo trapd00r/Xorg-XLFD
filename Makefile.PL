@@ -15,7 +15,7 @@ WriteMakefile1(
   ABSTRACT         => q{X11 logical font description interface},
   VERSION_FROM     => q{lib/Xorg/XLFD.pm},
   LICENSE          => q{perl},
-  MIN_PERL_VERSION => 5.010,
+  MIN_PERL_VERSION => 5.0110001,
   PL_FILES         => { },
   PREREQ_PM        => { },
   MAN1PODS         => { },
